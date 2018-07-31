@@ -6,12 +6,19 @@ resource "aws_instance" "MPN" {
     Name = "MPN"
   }
 
- provisioner "remote-exec" {
+  provisioner "remote-exec" {
     inline = [
-      "sudo apt-add-repository ppa:ansible/ansible"
-      "sudo apt-get update",
-      "sudo apt-get install ansible"
+      "apt-add-repository ppa:ansible/ansible",
+      "apt-get update",
+      "apt-get install python libselinux-python",
+      "apt-get install ansible",
     ]
+  }
+
+  connection {
+    type        = "ssh"
+    user        = "fedora"
+    private_key = "${file(var.ssh_key_private)}"
   }
 
   provisioner "local-exec" {
