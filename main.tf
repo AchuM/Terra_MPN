@@ -6,7 +6,15 @@ resource "aws_instance" "MPN" {
     Name = "MPN"
   }
 
+ provisioner "remote-exec" {
+    inline = [
+      "sudo apt-add-repository ppa:ansible/ansible"
+      "sudo apt-get update",
+      "sudo apt-get install ansible"
+    ]
+  }
+
   provisioner "local-exec" {
-    command = "sleep 120; ansible-playbook -i /usr/local/bin/terraform-inventory -u ubuntu playbooks/vagrant.yml --private-key=/home/user/.ssh/aws_user.pem -u ubuntu"
+    command = "ansible-playbook -i '${self.public_ip},' --private-key ${var.ssh_key_private} playbooks/vagrant.yml"
   }
 }
