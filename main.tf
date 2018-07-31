@@ -7,6 +7,6 @@ resource "aws_instance" "MPN" {
   }
 
   provisioner "local-exec" {
-    command = "sleep 120; ansible-playbook -i /usr/local/bin/terraform-inventory -u ubuntu playbooks/vagrant/yml --private-key=/home/user/.ssh/aws_user.pem -u ubuntu"
+    command = "sleep 120; ansible-playbook -i /usr/local/bin/terraform-inventory -u ubuntu playbooks/vagrant.yml --private-key=/home/user/.ssh/aws_user.pem -u ubuntu"
   }
 }
