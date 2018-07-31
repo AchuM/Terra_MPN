@@ -17,7 +17,7 @@ resource "aws_instance" "MPN" {
 
   connection {
     type        = "ssh"
-    user        = "fedora"
+    user        = "ubuntu"
     private_key = "${file(var.ssh_key_private)}"
   }
 
