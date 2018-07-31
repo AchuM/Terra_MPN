@@ -1,0 +1,26 @@
+- include: root.yml
+- include: database.yml
+- include: user.yml
+
+- name: install mysql-server
+  apt: pkg=mysql-server state=latest
+
+- name: install mysql-client
+  apt: pkg=mysql-client state=latest
+
+- name: generate mysql root password
+  shell: mkpasswd --method=SHA-256 password
+  register: mysql_root_password
+
+- name: install python-mysqldb
+  apt: pkg=python-mysqldb  state=latest
+
+- name: Start the MySQL service
+  action: service name=mysql state=started
+
+- name: delete anonymous MySQL server user
+  action: mysql_user user="" state="absent"
+
+- name: remove the MySQL test database
+  action: mysql_db db=test state=absent
+
