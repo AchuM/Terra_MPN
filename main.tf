@@ -1,4 +1,4 @@
-resource "aws_instance" "my-test-instance" {
+resource "aws_instance" "MPN" {
   ami           = "${data.aws_ami.ubuntu.id}"
   instance_type = "t2.micro"
 
@@ -7,6 +7,6 @@ resource "aws_instance" "my-test-instance" {
   }
 
   provisioner "local-exec" {
-    command = "sleep 30 && echo -e \"[MPN]\n${aws_instance.MPN.ipv4_address} ansible_connection=ssh ansible_ssh_user=root\" > inventory &&  ansible-playbook -i inventory playbooks/vagrant.yml"
+    command = "sleep 120; ansible-playbook -i /usr/local/bin/terraform-inventory -u ubuntu playbooks/vagrant/yml --private-key=/home/user/.ssh/aws_user.pem -u ubuntu"
   }
 }
