@@ -1,9 +1,22 @@
 resource "aws_instance" "MPN" {
   ami           = "${data.aws_ami.ubuntu.id}"
   instance_type = "t2.micro"
+  key_name      = "${aws_key_pair.generated_key.key_name}"
 
   tags {
     Name = "MPN"
+  }
+
+  variable "key_name" {}
+
+  resource "tls_private_key" "example" {
+    algorithm = "RSA"
+    rsa_bits  = 4096
+  }
+
+  resource "aws_key_pair" "generated_key" {
+    key_name   = "${var.key_name}"
+    public_key = "${tls_private_key.example.public_key_openssh}"
   }
 
   provisioner "remote-exec" {
