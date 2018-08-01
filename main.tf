@@ -19,6 +19,8 @@ resource "aws_instance" "MPN" {
     type        = "ssh"
     user        = "ubuntu"
     private_key = "${file(var.ssh_key_private)}"
+    timeout     = "2m"
+    agent       = false
   }
 
   provisioner "local-exec" {
